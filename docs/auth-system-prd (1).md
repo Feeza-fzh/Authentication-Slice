@@ -10,8 +10,8 @@ The stack is fixed. Do not add a frontend framework, a different ORM, or a diffe
 - **Frontend:** Plain HTML and CSS. No React, Vue, or any other JS framework. Screens are server-rendered pages with standard HTML forms. JavaScript is allowed only for the small behaviors the screens require (password show/hide toggle, resend countdown, code input formatting) and must be plain JS, not a framework.
 - **Data access:** Prisma ORM. All reads and writes to the database go through Prisma. No raw SQL except inside a Prisma migration where Prisma itself generates it.
 - **Database:** PostgreSQL. No other database engine, no in-memory fallback, no SQLite for "local dev convenience."
-- **Backend runtime:** Not specified by the person who wrote the input. Prisma requires Node.js, so the backend runs on Node.js (current LTS) with TypeScript. [ASSUMPTION] This is an open question if a different runtime was intended; see section 14.
-- **Rendering model:** Server-rendered pages, not a single-page app. This resolves the open question from the previous draft about SPA vs. server-rendered pages: the HTML/CSS-only frontend means server-rendered. [ASSUMPTION]
+- **Backend runtime:**  Node.js (current LTS) with TypeScript.
+- **Rendering model:** Server-rendered pages, not a single-page app.
 
 ## 3. Goals and non-goals
 
@@ -29,7 +29,7 @@ The stack is fixed. Do not add a frontend framework, a different ORM, or a diffe
 - Settings.
 - Social sign-in.
 - Two-factor authentication.
-- "Remember me" option, password change while signed in, account deletion, email change, admin tools, and localization. [ASSUMPTION]
+- "Remember me" option, password change while signed in, account deletion, email change, admin tools, and localization. 
 
 ## 4. Users and states
 
@@ -41,7 +41,7 @@ The stack is fixed. Do not add a frontend framework, a different ORM, or a diffe
 | Signed in | Verified account, active session | Dashboard only. Create account, Sign in, Forgot password, Reset password, and Email verification redirect to Dashboard. [ASSUMPTION] |
 | Locked out | 5 failed sign-ins in 15 minutes | Sign in (shows lockout message), Forgot password |
 
-Routes: `/sign-up`, `/sign-in`, `/forgot-password`, `/reset-password`, `/verify-email`, `/dashboard`. [ASSUMPTION]
+Routes: `/sign-up`, `/sign-in`, `/forgot-password`, `/reset-password`, `/verify-email`, `/dashboard`. 
 
 ## 5. User flows
 
@@ -92,7 +92,7 @@ Failure path: Session expired. Same redirect, with the message "Your session has
 2. System revokes the session on the server, clears the cookie, and shows Sign in.
 3. Back button shows Sign in, not the dashboard.
 
-Failure path: Network error on the request. Client clears the cookie anyway and shows Sign in. The server session expires on its own schedule. [ASSUMPTION]
+Failure path: Network error on the request. Client clears the cookie anyway and shows Sign in. The server session expires on its own schedule. 
 
 ## 6. Screen specifications
 
@@ -264,14 +264,14 @@ Content: one line of text, "Signed in as [name]", and one button labeled "Sign o
 - **FR-02:** The system shall store the email trimmed and lowercased, and treat emails as unique on that value.
 - **FR-03:** The system shall send a 6-digit numeric verification code to the email on account creation.
 - **FR-04:** The system shall expire a verification code 10 minutes after it is sent.
-- **FR-05:** When a submitted sign-up email already has an account, the system shall show the same result as a new sign-up and send the "already registered" email described in section 9. [ASSUMPTION]
+- **FR-05:** When a submitted sign-up email already has an account, the system shall show the same result as a new sign-up and send the "already registered" 
 - **FR-06:** The system shall accept a maximum of 5 wrong attempts per code, then void it.
 - **FR-07:** The system shall allow one resend per 60 seconds and 5 resends per hour per account.
 - **FR-08:** The system shall void the previous code whenever it issues a new one.
 - **FR-09:** The system shall mark the email verified when the correct, unexpired code is submitted.
 - **FR-10:** The system shall block unverified accounts from the dashboard.
 - **FR-11:** The system shall sign in a verified user when the email and password match.
-- **FR-12:** When an unverified user signs in with a correct password, the system shall send a new code and show Email verification. [ASSUMPTION]
+- **FR-12:** When an unverified user signs in with a correct password, the system shall send a new code and show Email verification. 
 - **FR-13:** The system shall create a reset token only when the submitted email has a verified account, and shall show the same confirmation in all cases.
 - **FR-14:** The system shall expire a reset token 30 minutes after creation.
 - **FR-15:** The system shall accept a reset token once. A used token shall be rejected.
@@ -279,26 +279,26 @@ Content: one line of text, "Signed in as [name]", and one button labeled "Sign o
 - **FR-17:** The system shall revoke all sessions for a user when their password is reset.
 - **FR-18:** The system shall not sign the user in after a password reset. The user goes to Sign in.
 - **FR-19:** The system shall create a session with a 256-bit random identifier after successful sign-in or verification.
-- **FR-20:** The system shall expire a full session 7 days after creation, with no extension. [ASSUMPTION]
-- **FR-21:** The system shall expire a verification-only session 1 hour after creation. That session shall reach only the verification endpoints. [ASSUMPTION]
+- **FR-20:** The system shall expire a full session 7 days after creation, with no extension.
+- **FR-21:** The system shall expire a verification-only session 1 hour after creation. That session shall reach only the verification endpoints. 
 - **FR-22:** The system shall check the session on every request to the dashboard and redirect to Sign in when it is missing, expired, or revoked.
 - **FR-23:** The system shall redirect a signed-in user from Create account, Sign in, Forgot password, Reset password, and Email verification to the dashboard.
 - **FR-24:** On sign out, the system shall revoke the session on the server, clear the session cookie, and redirect to Sign in.
 - **FR-25:** The system shall send `Cache-Control: no-store` on the dashboard and all auth screens so the back button cannot restore a signed-out view.
-- **FR-26:** The dashboard shall recheck the session when its tab regains focus and redirect to Sign in if the session is gone. [ASSUMPTION]
+- **FR-26:** The dashboard shall recheck the session when its tab regains focus and redirect to Sign in if the session is gone. 
 
 ## 8. Security requirements
 
-- **Password storage:** Hash with Argon2id (memory 19 MiB, 2 iterations, 1 thread). Use a unique salt per password. Never store or log plain passwords. [ASSUMPTION]
+- **Password storage:** Hash with Argon2id (memory 19 MiB, 2 iterations, 1 thread). Use a unique salt per password. Never store or log plain passwords.
 - **Code and token storage:** Store SHA-256 hashes of verification codes, reset tokens, and session identifiers. Never store the raw value.
 - **Entropy:** Verification codes come from a cryptographically secure random source (10^6 possibilities, limited by the 5 attempt cap). Reset tokens and session identifiers use 256 bits.
-- **Rate limiting:** 10 requests per minute per IP on each auth endpoint. 5 sign-up attempts per hour per IP. 5 reset requests per hour per email and per IP. [ASSUMPTION]
+- **Rate limiting:** 10 requests per minute per IP on each auth endpoint. 5 sign-up attempts per hour per IP. 5 reset requests per hour per email and per IP. 
 - **Lockout:** 5 failed sign-ins within 15 minutes locks the email for 15 minutes. The system tracks this by normalized email whether or not the account exists. A successful sign-in resets the count. A password reset clears the lock.
 - **Account enumeration:** Sign in returns "Email or password is incorrect." for unknown emails and wrong passwords. Response time must be comparable for both cases. Forgot password and Create account show identical results whether or not the email exists.
 - **Session cookie:** `HttpOnly`, `Secure`, `SameSite=Lax`, `Path=/`. Cookie name and domain are open questions.
 - **CSRF:** Every state-changing request needs a CSRF token, and the server checks the `Origin` header.
 - **Transport:** HTTPS only, with HSTS.
-- **Reset link:** The link page sets `Referrer-Policy: no-referrer`. The reset token is removed from the browser address bar after load. [ASSUMPTION]
+- **Reset link:** The link page sets `Referrer-Policy: no-referrer`. The reset token is removed from the browser address bar after load.
 - **Logging:** Auth logs must not contain passwords, codes, or tokens.
 
 ## 9. Email specifications
@@ -450,10 +450,10 @@ Notes binding on implementation:
 | Wrong code entered repeatedly | After 5 wrong attempts the code is void. User must resend. |
 | Sign in during lockout | Lockout message. Correct password does not bypass the lock. |
 | User requests reset twice | Only the newest link works. |
-| Signed-in user opens a reset link | Redirect to Dashboard. The token stays unused. [ASSUMPTION] |
+| Signed-in user opens a reset link | Redirect to Dashboard. The token stays unused.  |
 | Session cookie expires while user is on dashboard | Next request or tab focus redirects to Sign in with the expiry message. |
 | Verification-only session tries the dashboard | Redirect to Email verification. |
-| Password reset for an unverified account | No reset token is created. The confirmation text still appears. [ASSUMPTION] |
+| Password reset for an unverified account | No reset token is created. The confirmation text still appears.  |
 
 ## 12. Acceptance criteria
 
@@ -488,11 +488,11 @@ Notes binding on implementation:
 
 | Metric | Definition | Formula | Target |
 |---|---|---|---|
-| Sign-up completion rate | Users who submit a valid sign-up form out of users who open Create account | Accounts created / Create account page views | 60% [ASSUMPTION] |
-| Email verification completion rate | New accounts verified within 24 hours | Verified within 24h / Accounts created | 85% [ASSUMPTION] |
-| Sign-in success rate | Sign-in attempts that create a session | Successful sign-ins / Sign-in submissions | 90% [ASSUMPTION] |
-| Password reset completion rate | Reset requests that end in a new password within 30 minutes | Resets completed / Reset emails sent | 70% [ASSUMPTION] |
-| Time to dashboard | Median time from Create account submit to Dashboard view | Median of (dashboard view time minus sign-up submit time) | Under 3 minutes [ASSUMPTION] |
+| Sign-up completion rate | Users who submit a valid sign-up form out of users who open Create account | Accounts created / Create account page views | 60%  |
+| Email verification completion rate | New accounts verified within 24 hours | Verified within 24h / Accounts created | 85%  |
+| Sign-in success rate | Sign-in attempts that create a session | Successful sign-ins / Sign-in submissions | 90%  |
+| Password reset completion rate | Reset requests that end in a new password within 30 minutes | Resets completed / Reset emails sent | 70%  |
+| Time to dashboard | Median time from Create account submit to Dashboard view | Median of (dashboard view time minus sign-up submit time) | Under 3 minutes  |
 
 ## 14. Assumptions and open questions
 
