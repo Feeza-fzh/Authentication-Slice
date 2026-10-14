@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-store">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="auth.css">
+  <style>
+    /* Strictly compliant layout for Section 6.6: only one line of text and one button */
+    .dashboard-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--spacing-large);
+      text-align: center;
+      max-width: 400px;
+      margin: 0 auto;
+      padding: var(--spacing-very-large);
+      background-color: var(--color-surface-c-lowest);
+      border: 1px solid var(--color-surface-c-high);
+      border-radius: 20px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .dashboard-heading {
+      font: var(--font-heading-small);
+      color: var(--color-on-surface);
+      word-break: break-word;
+    }
+  </style>
+</head>
+<body>
+  <main class="dashboard-container">
+    <h1 class="dashboard-heading" id="user-display">Signed in as User</h1>
+    
+    <form id="signout-form" method="POST" action="sign-in.html?flash=signed_out" style="width: 100%;">
+      <button type="submit" id="signout-btn" class="btn btn-secondary">
+        <span class="btn-spinner" aria-hidden="true"></span>
+        <span id="signout-btn-text">Sign out</span>
+      </button>
+    </form>
+  </main>
+
+  <script>
+    (function() {
+      // Check server session validity on load
+      fetch('/api/auth/session', { credentials: 'include' })
+        .then((res) => res.json())
+        .then((data) => {
+          if (!data.authenticated || !data.user) {
+            sessionStorage.removeItem('auth_user_name');
+            sessionStorage.removeItem('auth_user_id');
+            window.location.href = 'sign-in.html?flash=session_expired';
+          } else {
+            const userName = data.user.name || data.user.firstName || sessionStorage.getItem('auth_user_name') || 'Jane Doe';
+            document.getElementById('user-display').textContent = 'Signed in as ' + userName;
+          }
+        })
+        .catch(() => {
+          // If offline or server error, retain client fallback
+          const userName = sessionStorage.getItem('auth_user_name') || 'Jane Doe';
+          document.getElementById('user-display').textContent = 'Signed in as ' + userName;
+        });
+
+      const form = document.getElementById('signout-form');
+      const btn = document.getElementById('signout-btn');
+      const text = document.getElementById('signout-btn-text');
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        btn.disabled = true;
+        btn.classList.add('is-loading');
+        text.textContent = 'Signing out...';
+
+        // Server-side logout endpoint to revoke session in DB and clear session cookies
+        fetch('/api/auth/sign-out', {
+          method: 'POST',
+          credentials: 'include'
+        })
+          .finally(() => {
+            sessionStorage.removeItem('auth_user_name');
+            sessionStorage.removeItem('auth_user_id');
+            window.location.href = 'sign-in.html?flash=signed_out';
+          });
+      });
+
+      // On visibilitychange / window focus, check server session validity
+      document.addEventListener('visibilitychange', function() {
+        if (document.visibilityState === 'visible') {
+          fetch('/api/auth/session', { credentials: 'include' })
+            .then((res) => res.json())
+            .then((data) => {
+              if (!data.authenticated) {
+                window.location.href = 'sign-in.html?flash=session_expired';
+              }
+            })
+            .catch(() => {});
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

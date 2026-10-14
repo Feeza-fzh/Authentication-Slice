@@ -1,0 +1,94 @@
+// Prisma schema file for Authentication System
+// Updated with structured name fields for edge cases (first, middle, last name)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum SessionType {
+  pending_verification
+  full
+}
+
+model User {
+  id               String    @id @default(uuid()) @db.Uuid
+  name             String    @db.VarChar(120) // Full name (first + middle + last)
+  firstName        String    @map("first_name") @db.VarChar(50)
+  middleName       String?   @map("middle_name") @db.VarChar(50) // Optional middle name for multi-word edge cases (3+ words)
+  lastName         String    @map("last_name") @db.VarChar(50)
+  email            String    @db.VarChar(254)
+  emailNormalized  String    @unique @map("email_normalized") @db.VarChar(254)
+  passwordHash     String    @map("password_hash")
+  emailVerifiedAt  DateTime? @map("email_verified_at")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
+
+  verificationCodes EmailVerificationCode[]
+  resetTokens       PasswordResetToken[]
+  sessions          Session[]
+
+  @@map("users")
+}
+
+// Tracks sign-in failures by normalized email, including emails with no
+// account, so lockout cannot be used to probe which emails are registered.
+model LoginAttempt {
+  id               String    @id @default(uuid()) @db.Uuid
+  emailNormalized  String    @unique @map("email_normalized") @db.VarChar(254)
+  failedCount      Int       @default(0) @map("failed_count")
+  windowStartedAt  DateTime  @map("window_started_at")
+  lockedUntil      DateTime? @map("locked_until")
+
+  @@map("login_attempts")
+}
+
+model EmailVerificationCode {
+  id          String    @id @default(uuid()) @db.Uuid
+  userId      String    @map("user_id") @db.Uuid
+  codeHash    String    @map("code_hash")
+  expiresAt   DateTime  @map("expires_at")
+  attempts    Int       @default(0)
+  consumedAt  DateTime? @map("consumed_at")
+  voidedAt    DateTime? @map("voided_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("email_verification_codes")
+}
+
+model PasswordResetToken {
+  id          String    @id @default(uuid()) @db.Uuid
+  userId      String    @map("user_id") @db.Uuid
+  tokenHash   String    @map("token_hash")
+  expiresAt   DateTime  @map("expires_at")
+  usedAt      DateTime? @map("used_at")
+  voidedAt    DateTime? @map("voided_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("password_reset_tokens")
+}
+
+model Session {
+  id          String      @id @default(uuid()) @db.Uuid
+  userId      String      @map("user_id") @db.Uuid
+  tokenHash   String      @map("token_hash")
+  type        SessionType
+  createdAt   DateTime    @default(now()) @map("created_at")
+  expiresAt   DateTime    @map("expires_at")
+  revokedAt   DateTime?   @map("revoked_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("sessions")
+}

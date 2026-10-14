@@ -1,0 +1,35 @@
+{
+  "name": "auth-system",
+  "version": "1.0.0",
+  "description": "Authentication screens and design token system",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "tokens": "node convert-tokens.js design-tokens.tokens.json -o design-tokens.css",
+    "test": "node test-converter.js",
+    "test:validation": "node src/server/validation.test.js",
+    "test:password": "node src/server/password.test.js",
+    "test:verification": "node src/server/verification.test.js",
+    "prisma:generate": "prisma generate",
+    "prisma:push": "prisma db push",
+    "prisma:studio": "prisma studio"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "prisma": "^6.19.3",
+    "vite": "^8.3.3"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.19.3",
+    "@vitejs/plugin-react": "^6.1.2",
+    "bcrypt": "^6.0.0",
+    "dotenv": "^18.0.6",
+    "nodemailer": "^10.0.16",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "zod": "^4.6.5"
+  }
+}

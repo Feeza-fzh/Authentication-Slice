@@ -1,0 +1,288 @@
+/**
+ * ============================================================================
+ * DESIGN SYSTEM CSS CUSTOM PROPERTIES (VARIABLES)
+ * Automatically generated from design-tokens.tokens.json
+ * ============================================================================
+ *
+ * ARCHITECTURE NOTE:
+ * 1. PRIMITIVE COLORS (--primitive-color-*): Raw foundation scales. DO NOT USE DIRECTLY IN UI.
+ * 2. COLOR ROLES (--color-*): UI semantic colors. USE THESE FOR COMPONENT STYLING.
+ * 3. SPACING (--spacing-*): Dimension tokens for margins, paddings, and layouts.
+ * 4. TYPOGRAPHY (--font-*): Typography styling tokens (size, weight, family, line-height).
+ * 5. SHADOWS (--shadow-*): Box-shadow effect tokens.
+ * ============================================================================
+ */
+
+:root {
+  /* ==========================================================================
+   * 1. PRIMITIVE COLORS (FOUNDATION / PALETTE)
+   * --------------------------------------------------------------------------
+   * WARNING: Primitive colors are internal design system foundations.
+   * DO NOT apply these directly in UI components. Use UI Color Roles instead.
+   * ==========================================================================
+   */
+  /* --- Primitive Scale: key color group --- */
+  --primitive-color-key-primary-key: #8c19de;
+  --primitive-color-key-secondary-key: #7014b2;
+  --primitive-color-key-tertiary-key: #a23fe9;
+  --primitive-color-key-neutral-key: #120f14;
+  --primitive-color-key-neutral-variant-key: #2c282e;
+
+  /* --- Primitive Scale: primary color group --- */
+  --primitive-color-primary-0: #000000;
+  --primitive-color-primary-10: #1d052e;
+  --primitive-color-primary-20: #3a0a5c;
+  --primitive-color-primary-30: #570f8a;
+  --primitive-color-primary-40: #7414b8;
+  --primitive-color-primary-50: #9119e6;
+  --primitive-color-primary-60: #a747eb;
+  --primitive-color-primary-70: #bd75f0;
+  --primitive-color-primary-80: #debaf7;
+  --primitive-color-primary-90: #eddafb;
+  --primitive-color-primary-95: #f6edfd;
+  --primitive-color-primary-98: #fbf6fe;
+  --primitive-color-primary-99: #fdfafe;
+  --primitive-color-primary-100: #ffffff;
+
+  /* --- Primitive Scale: secondary color group --- */
+  --primitive-color-secondary-0: #000000;
+  --primitive-color-secondary-10: #1d052e;
+  --primitive-color-secondary-20: #3a0a5c;
+  --primitive-color-secondary-30: #570f8a;
+  --primitive-color-secondary-40: #7315b7;
+  --primitive-color-secondary-50: #901ae5;
+  --primitive-color-secondary-60: #a648ea;
+  --primitive-color-secondary-70: #c588f2;
+  --primitive-color-secondary-80: #d3a3f5;
+  --primitive-color-secondary-90: #efdffb;
+  --primitive-color-secondary-95: #f8f1fd;
+  --primitive-color-secondary-98: #fbf6fe;
+  --primitive-color-secondary-99: #fdfafe;
+  --primitive-color-secondary-100: #ffffff;
+
+  /* --- Primitive Scale: tertiary color group --- */
+  --primitive-color-tertiary-0: #000000;
+  --primitive-color-tertiary-10: #1d052e;
+  --primitive-color-tertiary-20: #3a0a5c;
+  --primitive-color-tertiary-30: #571089;
+  --primitive-color-tertiary-40: #8518d2;
+  --primitive-color-tertiary-50: #901ae5;
+  --primitive-color-tertiary-60: #a648ea;
+  --primitive-color-tertiary-70: #bd76ef;
+  --primitive-color-tertiary-80: #e2c4f8;
+  --primitive-color-tertiary-90: #e9d1fa;
+  --primitive-color-tertiary-95: #f4e8fc;
+  --primitive-color-tertiary-98: #fbf6fe;
+  --primitive-color-tertiary-99: #fdfafe;
+  --primitive-color-tertiary-100: #ffffff;
+
+  /* --- Primitive Scale: neutral color group --- */
+  --primitive-color-neutral-0: #000000;
+  --primitive-color-neutral-10: #1a161d;
+  --primitive-color-neutral-20: #342c3a;
+  --primitive-color-neutral-30: #4f4257;
+  --primitive-color-neutral-40: #695775;
+  --primitive-color-neutral-50: #836d92;
+  --primitive-color-neutral-60: #9c8aa8;
+  --primitive-color-neutral-70: #b5a8bd;
+  --primitive-color-neutral-80: #cdc5d3;
+  --primitive-color-neutral-90: #e6e2e9;
+  --primitive-color-neutral-95: #f3f0f4;
+  --primitive-color-neutral-98: #faf9fb;
+  --primitive-color-neutral-99: #fdfcfd;
+  --primitive-color-neutral-100: #ffffff;
+
+  /* --- Primitive Scale: neutral variant color group --- */
+  --primitive-color-neutral-variant-v0: #000000;
+  --primitive-color-neutral-variant-v10: #1a181b;
+  --primitive-color-neutral-variant-v20: #342f37;
+  --primitive-color-neutral-variant-v30: #4e4752;
+  --primitive-color-neutral-variant-v40: #685f6d;
+  --primitive-color-neutral-variant-v50: #827788;
+  --primitive-color-neutral-variant-v60: #9b92a0;
+  --primitive-color-neutral-variant-v70: #b4adb8;
+  --primitive-color-neutral-variant-v80: #cdc8d0;
+  --primitive-color-neutral-variant-v90: #e6e4e7;
+  --primitive-color-neutral-variant-v95: #f3f1f3;
+  --primitive-color-neutral-variant-v98: #fafafa;
+  --primitive-color-neutral-variant-v99: #fdfcfd;
+  --primitive-color-neutral-variant-v100: #ffffff;
+
+  /* ==========================================================================
+   * 2. COLOR ROLES (UI SEMANTIC COLORS)
+   * --------------------------------------------------------------------------
+   * RECOMMENDED FOR UI USE:
+   * Apply these semantic variables directly to UI components (buttons, cards,
+   * text, borders, backgrounds) to ensure proper dark mode and theme adaptability.
+   * ==========================================================================
+   */
+  --color-primary: var(--primitive-color-key-primary-key);
+  --color-on-primary: var(--primitive-color-primary-100);
+  --color-primary-container: var(--primitive-color-primary-90);
+  --color-on-primary-container: var(--primitive-color-primary-30);
+  --color-secondary: var(--primitive-color-secondary-40);
+  --color-on-secondary: var(--primitive-color-secondary-100);
+  --color-secondary-container: var(--primitive-color-secondary-90);
+  --color-on-secondary-container: var(--primitive-color-secondary-30);
+  --color-tertiary: var(--primitive-color-tertiary-40);
+  --color-on-tertiary: var(--primitive-color-tertiary-100);
+  --color-tertiary-container: var(--primitive-color-tertiary-90);
+  --color-on-tertiary-container: var(--primitive-color-tertiary-30);
+  --color-surface: var(--primitive-color-neutral-98);
+  --color-on-surface: var(--primitive-color-neutral-10);
+  --color-surface-variant: var(--primitive-color-neutral-variant-v90);
+  --color-on-surface-variant: var(--primitive-color-neutral-variant-v30);
+  --color-surface-c-highest: var(--primitive-color-neutral-80);
+  --color-surface-c-high: var(--primitive-color-neutral-90);
+  --color-surface-c-low: var(--primitive-color-neutral-95);
+  --color-surface-c-lowest: var(--primitive-color-neutral-98);
+  --color-inverse-surface: var(--primitive-color-neutral-30);
+  --color-inverse-on-surface: var(--primitive-color-neutral-95);
+  --color-surface-tint: var(--primitive-color-primary-40);
+
+  /* ==========================================================================
+   * 3. SPACING SYSTEM
+   * ==========================================================================
+   */
+  --spacing-no: 0;
+  --spacing-extra-small: 4px;
+  --spacing-small: 8px;
+  --spacing-medium: 12px;
+  --spacing-base: 16px;
+  --spacing-large: 20px;
+  --spacing-extra-large: 24px;
+  --spacing-very-large: 32px;
+
+  /* ==========================================================================
+   * 4. TYPOGRAPHY TOKENS
+   * ==========================================================================
+   */
+  /* Typography Style: display large */
+  --font-display-large-family: 'DM Sans', sans-serif;
+  --font-display-large-size: 62px;
+  --font-display-large-weight: 500;
+  --font-display-large-line-height: 93px;
+  --font-display-large-letter-spacing: -3.1px;
+  --font-display-large: 500 62px/93px 'DM Sans', sans-serif;
+
+  /* Typography Style: display medium */
+  --font-display-medium-family: 'DM Sans', sans-serif;
+  --font-display-medium-size: 50px;
+  --font-display-medium-weight: 500;
+  --font-display-medium-line-height: 75px;
+  --font-display-medium-letter-spacing: -2px;
+  --font-display-medium: 500 50px/75px 'DM Sans', sans-serif;
+
+  /* Typography Style: display small */
+  --font-display-small-family: 'DM Sans', sans-serif;
+  --font-display-small-size: 42px;
+  --font-display-small-weight: 500;
+  --font-display-small-line-height: 63px;
+  --font-display-small-letter-spacing: -1.68px;
+  --font-display-small: 500 42px/63px 'DM Sans', sans-serif;
+
+  /* Typography Style: heading large */
+  --font-heading-large-family: 'DM Sans', sans-serif;
+  --font-heading-large-size: 32px;
+  --font-heading-large-weight: 500;
+  --font-heading-large-line-height: 48px;
+  --font-heading-large-letter-spacing: -1.6px;
+  --font-heading-large: 500 32px/48px 'DM Sans', sans-serif;
+
+  /* Typography Style: heading medium */
+  --font-heading-medium-family: 'DM Sans', sans-serif;
+  --font-heading-medium-size: 28px;
+  --font-heading-medium-weight: 500;
+  --font-heading-medium-line-height: 42px;
+  --font-heading-medium-letter-spacing: -1.12px;
+  --font-heading-medium: 500 28px/42px 'DM Sans', sans-serif;
+
+  /* Typography Style: heading small */
+  --font-heading-small-family: 'DM Sans', sans-serif;
+  --font-heading-small-size: 24px;
+  --font-heading-small-weight: 500;
+  --font-heading-small-line-height: 36px;
+  --font-heading-small-letter-spacing: -0.96px;
+  --font-heading-small: 500 24px/36px 'DM Sans', sans-serif;
+
+  /* Typography Style: title large */
+  --font-title-large-family: 'DM Sans', sans-serif;
+  --font-title-large-size: 22px;
+  --font-title-large-weight: 500;
+  --font-title-large-line-height: 33px;
+  --font-title-large-letter-spacing: -0.88px;
+  --font-title-large: 500 22px/33px 'DM Sans', sans-serif;
+
+  /* Typography Style: title medium */
+  --font-title-medium-family: 'DM Sans', sans-serif;
+  --font-title-medium-size: 16px;
+  --font-title-medium-weight: 500;
+  --font-title-medium-line-height: 24px;
+  --font-title-medium-letter-spacing: -0.64px;
+  --font-title-medium: 500 16px/24px 'DM Sans', sans-serif;
+
+  /* Typography Style: title small */
+  --font-title-small-family: 'DM Sans', sans-serif;
+  --font-title-small-size: 14px;
+  --font-title-small-weight: 500;
+  --font-title-small-line-height: 21px;
+  --font-title-small-letter-spacing: -0.56px;
+  --font-title-small: 500 14px/21px 'DM Sans', sans-serif;
+
+  /* Typography Style: body large */
+  --font-body-large-family: 'DM Sans', sans-serif;
+  --font-body-large-size: 16px;
+  --font-body-large-weight: 500;
+  --font-body-large-line-height: 24px;
+  --font-body-large-letter-spacing: -0.64px;
+  --font-body-large: 500 16px/24px 'DM Sans', sans-serif;
+
+  /* Typography Style: body medium */
+  --font-body-medium-family: 'DM Sans', sans-serif;
+  --font-body-medium-size: 14px;
+  --font-body-medium-weight: 500;
+  --font-body-medium-line-height: 21px;
+  --font-body-medium-letter-spacing: -0.56px;
+  --font-body-medium: 500 14px/21px 'DM Sans', sans-serif;
+
+  /* Typography Style: body small */
+  --font-body-small-family: 'DM Sans', sans-serif;
+  --font-body-small-size: 12px;
+  --font-body-small-weight: 500;
+  --font-body-small-line-height: 18px;
+  --font-body-small-letter-spacing: -0.48px;
+  --font-body-small: 500 12px/18px 'DM Sans', sans-serif;
+
+  /* Typography Style: label large */
+  --font-label-large-family: 'DM Sans', sans-serif;
+  --font-label-large-size: 14px;
+  --font-label-large-weight: 500;
+  --font-label-large-line-height: 16.5px;
+  --font-label-large-letter-spacing: -0.56px;
+  --font-label-large: 500 14px/16.5px 'DM Sans', sans-serif;
+
+  /* Typography Style: label medium */
+  --font-label-medium-family: 'DM Sans', sans-serif;
+  --font-label-medium-size: 12px;
+  --font-label-medium-weight: 500;
+  --font-label-medium-line-height: 16.5px;
+  --font-label-medium-letter-spacing: -0.48px;
+  --font-label-medium: 500 12px/16.5px 'DM Sans', sans-serif;
+
+  /* Typography Style: label small */
+  --font-label-small-family: 'DM Sans', sans-serif;
+  --font-label-small-size: 11px;
+  --font-label-small-weight: 500;
+  --font-label-small-line-height: 16.5px;
+  --font-label-small-letter-spacing: -0.44px;
+  --font-label-small: 500 11px/16.5px 'DM Sans', sans-serif;
+
+  /* ==========================================================================
+   * 5. EFFECTS & SHADOWS
+   * ==========================================================================
+   */
+  --shadow-hard: 4px 6px 8px 0 rgba(0, 0, 0, 0.32);
+  --shadow-medium: 2px 4px 6px 0 rgba(0, 0, 0, 0.28);
+  --shadow-soft: 2px 2px 20px 0 rgba(0, 0, 0, 0.12);
+
+}
